@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "astfriend"
-version = "0.1.0"
+version = "0.1.2"
 description = "Project for easy AST tree manipulation"
 authors = ["vbobryshev"]
 readme = "README.md"
