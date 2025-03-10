@@ -1,6 +1,8 @@
 name: Bump Version and Publish
 
-# Триггер на пуш в ветку main
+permissions:
+  contents: write  # дает права на запись в репозиторий
+
 on:
   push:
     branches:
@@ -8,38 +10,27 @@ on:
 
 jobs:
   bump_version:
-    runs-on: ubuntu-latest  # Запуск на последней версии Ubuntu
+    runs-on: ubuntu-latest
 
     steps:
-      # 1. Проверяем код из репозитория
       - name: Checkout repository
-        uses: actions/checkout@v3  # Действие для получения кода из репозитория
+        uses: actions/checkout@v3
 
-      # 2. Устанавливаем Poetry
       - name: Install Poetry
-        run: pip install poetry  # Устанавливаем Poetry для работы с зависимостями
+        run: pip install poetry
 
-      # 3. Устанавливаем Python (по умолчанию последнюю версию Python 3)
       - name: Set up Python
-        uses: actions/setup-python@v4  # Настройка окружения Python
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.9'  # Указываем нужную версию Python
+          python-version: '3.9'
 
-      # 4. Повышаем версию проекта
       - name: Bump version
         run: |
-          # Используем команду poetry для повышения версии
-          poetry version patch  # Это повысит версию на 1 (например, 0.0.1 → 0.0.2)
+          poetry version patch
 
-          # Настройка имени и email для коммита (чтобы GitHub не ругался)
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
 
-          # Добавляем изменённый pyproject.toml в индекс
           git add pyproject.toml
-
-          # Коммитим изменения
-          git commit -m "chore: bump version"  # Коммит с сообщением о повышении версии
-
-          # Пушим изменения обратно в репозиторий
+          git commit -m "chore: bump version"
           git push https://${{ secrets.GITHUB_TOKEN }}@github.com/RoFhdsa/AstFriend.git HEAD:main
