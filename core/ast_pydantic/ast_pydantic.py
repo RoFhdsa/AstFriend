@@ -1,5 +1,6 @@
 import ast
 
+from core.ast_python.ast_class_def import AstClassDefObj
 from core.objs.keywords.pydantic_keywords import PydanticKeyWords
 
 
