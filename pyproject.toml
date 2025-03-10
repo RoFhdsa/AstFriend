@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "astfriend"
+version = "0.1.0-beta.1"
+description = "Project for easy AST tree manipulation"
+authors = ["vbobryshev"]
+readme = "README.md"
+repository = "https://github.com/RoFhdsa/AstFriend"
+license = "Proprietary"
+
+packages = [{ include = "core" }]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+astor = "^0.8.1"  # По желанию
+
+[tool.poetry.dev-dependencies]
+black = "^23.3"
+isort = "^5.12.0"
+pytest = "^8.0"
+mypy = "^1.0"
+sphinx = "^5.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

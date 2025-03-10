@@ -1,1 +1,1 @@
-# AstFriend-
+# AstFriend
