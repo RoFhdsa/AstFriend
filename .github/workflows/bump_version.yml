@@ -6,7 +6,7 @@ permissions:
 on:
   push:
     branches:
-      - main
+      - main  # Этот workflow будет срабатывать, когда что-то будет пушиться в main
 
 jobs:
   bump_version:
@@ -26,11 +26,26 @@ jobs:
 
       - name: Bump version
         run: |
-          poetry version patch
+          poetry version patch  # Поднимай версию
 
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
 
           git add pyproject.toml
           git commit -m "chore: bump version"
-          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/RoFhdsa/AstFriend.git HEAD:main
+
+          # Создаём новую ветку для пуша
+          git checkout -b bump-version-branch
+
+          # Пушим изменения в новую ветку
+          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/RoFhdsa/AstFriend.git HEAD:bump-version-branch
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}  # токен для взаимодействия с репозиторием
+          title: "Bump Version"  # Заголовок PR
+          body: "This PR bumps the version automatically."  # Описание PR
+          base: main  # Основная ветка, куда будет сделан PR
+          head: bump-version-branch  # Ветка с изменениями
+          draft: false  # Убираем статус черновика, чтобы PR был готов к слиянию
