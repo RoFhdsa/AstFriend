@@ -42,4 +42,4 @@ jobs:
           git commit -m "chore: bump version"  # Коммит с сообщением о повышении версии
 
           # Пушим изменения обратно в репозиторий
-          git push
+          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/RoFhdsa/AstFriend.git HEAD:main
