@@ -1,0 +1,24 @@
+stages:
+  - test
+  - version_bump
+
+install_and_test:
+  stage: test
+  script:
+    - echo "Устанавливаем зависимости"
+    - pip install -r requirements.txt
+    - echo "Запускаем тесты"
+    - pytest
+  # Чтобы job не запускалась для main, а только для веток и MR
+  except:
+    - main
+
+bump_version:
+  stage: version_bump
+  script:
+    - echo "Повышаем версию проекта"
+    - pip install bumpversion
+    - bumpversion patch  # Можно заменить на minor или major в зависимости от изменений
+  only:
+    - main
+  when: manual  # Если хочешь запускать вручную, иначе можно убрать, чтобы job запускалась автоматически
